@@ -32,22 +32,28 @@ class _State extends State<Home> {
   final euroController = TextEditingController();
 
   void _realChanged(String text) {
-    print(text);
+    double real = double.parse(text);
+    dolarController.text = " " + (real / dolar).toStringAsFixed(2);
+    euroController.text = " " + (real / euro).toStringAsFixed(2);
   }
 
   void _dolarChanged(String text) {
-    print(text);
+    double dolarTxt = double.parse(text);
+    realController.text = " " + (dolarTxt * dolar).toStringAsFixed(2);
+    euroController.text = " " + (dolarTxt * dolar / euro).toStringAsFixed(2);
   }
 
   void _euroChanged(String text) {
-    print(text);
+    double euroTxt = double.parse(text);
+    realController.text = " " + (euroTxt * euro).toStringAsFixed(2);
+    dolarController.text = " " + (euroTxt * euro / dolar).toStringAsFixed(2);
   }
 
   void _refresh() {
     setState(() {
-      realController.text = "";
-      dolarController.text = "";
-      euroController.text = "";
+      realController.text = " ";
+      dolarController.text = " ";
+      euroController.text = " ";
     });
   }
 
@@ -93,13 +99,13 @@ class _State extends State<Home> {
                           Icon(Icons.monetization_on,
                               size: 150.0, color: Colors.amber[300]),
                           buildTextField(
-                              "Reais", "R\$", realController, _realChanged),
+                              "Reais", "R\$ ", realController, _realChanged),
                           Divider(),
-                          buildTextField("Dólares", "US\$", dolarController,
+                          buildTextField("Dólares", "US\$ ", dolarController,
                               _dolarChanged),
                           Divider(),
                           buildTextField(
-                              "Euros", "€\$", euroController, _euroChanged),
+                              "Euros", "€\$ ", euroController, _euroChanged),
                         ],
                       ));
                 }
@@ -120,5 +126,6 @@ Widget buildTextField(
         prefixText: prefix),
     style: TextStyle(color: Colors.amber, fontSize: 25.0),
     onChanged: f,
+    keyboardType: TextInputType.number,
   );
 }
